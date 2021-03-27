@@ -14,7 +14,7 @@ CC=gcc
 
 # compile and link against course software and netpbm library
 CFLAGS="-I. -I/usr/local/cii/include -I/usr/local/include -I/csc/411/include"
-LIBS="-larith411 -lcii -lnetpbm -lm"
+LIBS="-llocality -larith411 -lcii -lnetpbm -lm -lpnmrdr"
 LFLAGS="-L/usr/local/cii/lib -L/usr/local/lib -L/csc/411/lib"
 
 # these flags max out warnings and debug info
@@ -37,7 +37,14 @@ done
 # using one case statement per executable binary
 case $link in
   all|image) gcc $FLAGS $LFLAGS -o image image.o \
-                  uarray2.o compress.o bitpack.o -lpnmrdr\
+                  uarray2.o compress.o bitpack.o\
+                  $LIBS 
+              linked=yes ;;
+esac
+
+case $link in
+  all|ppmdiff) gcc $FLAGS $LFLAGS -o ppmdiff ppmdiff.o \
+                  uarray2.o compress.o bitpack.o a2plain.o\
                   $LIBS 
               linked=yes ;;
 esac
